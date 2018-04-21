@@ -31,4 +31,69 @@ function helpers.mybattery()
     })
 end
 
+function helpers.create_tag(insert, move_client)
+    awful.prompt.run {
+        prompt       = "New tag name: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            local index = nil
+            if insert then
+                index = awful.screen.focused().selected_tag.index + 1
+            end
+            new_tag = awful.tag.add(new_name, {
+                screen = awful.screen.focused(),
+                index  = index,
+                layout = awful.layout.layouts[1]
+            })
+            if move_client and client.focus then
+                client.focus:tags({new_tag})
+            end
+            new_tag:view_only()
+        end
+    }
+end
+
+function helpers.rename_tag()
+    local selected_tag = awful.screen.focused().selected_tag
+    if not selected_tag then return end
+    awful.prompt.run {
+        prompt       = "New tag name: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+            selected_tag.name = new_name
+        end
+    }
+end
+
+function helpers.insert_tag()
+    helpers.create_tag(true, false)
+end
+
+function helpers.append_tag()
+    helpers.create_tag(false, false)
+end
+
+function helpers.insert_tag_with_client()
+    helpers.create_tag(true, true)
+end
+
+function helpers.append_tag_with_client()
+    helpers.create_tag(false, true)
+end
+
+function helpers.provision_screen(screen)
+    if #screen.tags == 0 then
+        awful.tag({ "scratch" }, screen, awful.layout.layouts[1])
+    end
+end
+
+function helpers.close_selected_tags()
+    for _, tag in pairs(awful.screen.focused().selected_tags) do
+        tag:delete()
+    end
+    helpers.provision_screen(awful.screen.focused())
+end
+
 return helpers
