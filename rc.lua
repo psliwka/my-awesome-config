@@ -5,7 +5,6 @@ local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
-local battery = require("awesome-upower-battery")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -197,14 +196,6 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-local function mybattery()
-  return battery({
-    settings = function()
-        widget:set_markup("Batt: " .. string.format("%3d", bat_now.perc) .. "% (" .. bat_now.status .. ")")
-    end
-})
-end
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -302,7 +293,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            mybattery(),
+            helpers.mybattery(),
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
