@@ -12,3 +12,10 @@ Requirements
 - [light-locker](https://github.com/the-cavalry/light-locker)
 - [pasystray](https://github.com/christophgysin/pasystray)
 - [rofi](https://github.com/DaveDavenport/rofi)
+
+License
+-------
+
+The project is licensed under GNU General Publice License v2 or later.
+You can read it online at ([v2](http://www.gnu.org/licenses/gpl-2.0.html)
+or [v3](http://www.gnu.org/licenses/gpl.html)).
