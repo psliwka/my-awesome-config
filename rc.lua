@@ -1,3 +1,4 @@
+local helpers = require("helpers")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -430,7 +431,7 @@ globalkeys = gears.table.join(
               end,
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
+    awful.key({ modkey }, "p", helpers.show_app_selector,
               {description = "show the menubar", group = "launcher"}),
     awful.key({ modkey,           }, "i", insert_tag,
               {description = "insert new tag", group = "tag"}),
