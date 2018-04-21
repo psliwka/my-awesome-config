@@ -1,0 +1,3 @@
+[submodule "awesome-upower-battery"]
+	path = awesome-upower-battery
+	url = https://github.com/berlam/awesome-upower-battery
