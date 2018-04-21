@@ -56,7 +56,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "light-locker", "pasystray", "acpic" }) -- entries must be comma-separated
+run_once({ "light-locker", "pasystray", "acpic", "dunst" }) -- entries must be comma-separated
 -- }}}
 
 -- {{{ Variable definitions
