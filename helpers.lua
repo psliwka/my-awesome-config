@@ -31,19 +31,24 @@ function helpers.mybattery()
     })
 end
 
+local function sorted_tag_index(screen, name)
+    local i = 1
+    while screen.tags[i] do
+        if name < screen.tags[i].name then break end
+        i = i + 1
+    end
+    return i
+end
+
 function helpers.create_tag(insert, move_client)
     awful.prompt.run {
         prompt       = "New tag name: ",
         textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
-            local index = nil
-            if insert then
-                index = awful.screen.focused().selected_tag.index + 1
-            end
             new_tag = awful.tag.add(new_name, {
                 screen = awful.screen.focused(),
-                index  = index,
+                index  = sorted_tag_index(awful.screen.focused(), new_name),
                 layout = awful.layout.layouts[1]
             })
             if move_client and client.focus then
@@ -63,6 +68,7 @@ function helpers.rename_tag()
         exe_callback = function(new_name)
             if not new_name or #new_name == 0 then return end
             selected_tag.name = new_name
+            selected_tag.index = sorted_tag_index(awful.screen.focused(), new_name)
         end
     }
 end
