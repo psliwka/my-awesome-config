@@ -91,7 +91,7 @@ end
 
 function helpers.provision_screen(screen)
     if #screen.tags == 0 then
-        awful.tag({ "scratch" }, screen, awful.layout.layouts[1])
+        awful.tag({ "*scratch*" }, screen, awful.layout.layouts[1])
     end
 end
 
