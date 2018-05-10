@@ -566,6 +566,11 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- Close a tag if it's unselected and empty
+awful.tag.attached_connect_signal(nil, "property::selected", function(t)
+    if not t.selected and #t:clients() == 0 then t:delete() end
+end)
 -- }}}
 
 helpers.run_once({ "light-locker", "pasystray", "acpic", "dunst" })

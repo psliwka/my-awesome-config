@@ -54,6 +54,7 @@ function helpers.create_tag(insert, move_client)
             if move_client and client.focus then
                 client.focus:tags({new_tag})
             end
+            new_tag.selected = true
             new_tag:view_only()
         end
     }
