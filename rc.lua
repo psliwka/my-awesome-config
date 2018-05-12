@@ -575,5 +575,3 @@ screen.connect_signal("tag::history::update", function(s)
     helpers.provision_screen(s)
 end)
 -- }}}
-
-helpers.run_once({ "light-locker", "pasystray", "acpic", "dunst" })

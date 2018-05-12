@@ -12,17 +12,6 @@ function helpers.show_app_selector()
     awful.spawn("rofi -show combi")
 end
 
-function helpers.run_once(cmd_arr)
-    for _, cmd in ipairs(cmd_arr) do
-        findme = cmd
-        firstspace = cmd:find(" ")
-        if firstspace then
-            findme = cmd:sub(0, firstspace-1)
-        end
-        awful.spawn.with_shell(string.format("bash -c \"pgrep -u $USER -x %s > /dev/null || (%s)\"", findme, cmd))
-    end
-end
-
 function helpers.mybattery()
     return battery({
         settings = function()
