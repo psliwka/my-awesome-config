@@ -572,6 +572,7 @@ screen.connect_signal("tag::history::update", function(s)
     for _, t in pairs(s.tags) do
         if not t.selected and #t:clients() == 0 then t:delete() end
     end
+    helpers.provision_screen(s)
 end)
 -- }}}
 
