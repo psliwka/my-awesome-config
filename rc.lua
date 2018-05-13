@@ -98,6 +98,19 @@ end
 local function find_client_prompt()
     awful.spawn("rofi -show window")
 end
+
+local function goto_tag_prompt()
+    local tag_names = ""
+    for _, tag in ipairs(awful.screen.focused().tags) do
+        tag_names = tag_names .. tag.name .. "\n"
+    end
+    local rofi_invocation = "rofi -dmenu -no-custom -format d"
+    local cmd = "echo \"" .. tag_names .. "\" | " .. rofi_invocation  -- TODO: escape quotes in tag names
+    awful.spawn.easy_async_with_shell(cmd, function(stdout, stderr, reason, exit_code)
+        local choosen_tag_index = tonumber(stdout)
+        awful.screen.focused().tags[choosen_tag_index]:view_only()
+    end)
+end
 -- }}}
 
 -- {{{ Menu
@@ -359,6 +372,8 @@ globalkeys = gears.table.join(
               {description = "delete current tag", group = "tag"}),
     awful.key({ modkey,           }, "s", helpers.rename_tag,
               {description = "rename current tag", group = "tag"}),
+    awful.key({ modkey },            "w", goto_tag_prompt,
+              {description = "go to tag", group = "tag"}),
     awful.key({ modkey },            "Escape", function() awful.spawn("light-locker-command -l") end,
               {description = "lock screen", group = "launcher"})
 )
