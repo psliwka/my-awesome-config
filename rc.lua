@@ -86,6 +86,18 @@ local function client_menu_toggle_fn()
         end
     end
 end
+
+local function run_prompt()
+    awful.spawn("rofi -show run")
+end
+
+local function desktop_run_prompt()
+    awful.spawn("rofi -show drun")
+end
+
+local function find_client_prompt()
+    awful.spawn("rofi -show window")
+end
 -- }}}
 
 -- {{{ Menu
@@ -328,22 +340,13 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey },            "r", run_prompt,
+              {description = "run", group = "launcher"}),
+    awful.key({ modkey },            "o", desktop_run_prompt,
+              {description = "run desktop app", group = "launcher"}),
+    awful.key({ modkey },            "p", find_client_prompt,
+              {description = "find already running app", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key({ modkey }, "p", helpers.show_app_selector,
-              {description = "show the menubar", group = "launcher"}),
     awful.key({ modkey,           }, "i", helpers.insert_tag,
               {description = "insert new tag", group = "tag"}),
     awful.key({ modkey,           }, "a", helpers.append_tag,
@@ -375,7 +378,7 @@ clientkeys = gears.table.join(
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
+    awful.key({ modkey, "Shift"   }, "o",      function (c) c:move_to_screen()               end,
               {description = "move to screen", group = "client"}),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),

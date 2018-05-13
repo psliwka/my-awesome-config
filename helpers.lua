@@ -8,10 +8,6 @@ local battery = require("awesome-upower-battery")
 
 local helpers = {}
 
-function helpers.show_app_selector()
-    awful.spawn("rofi -show combi")
-end
-
 function helpers.mybattery()
     return battery({
         settings = function()
