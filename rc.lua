@@ -293,20 +293,20 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "/",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "[",   awful.tag.viewprev,
+    awful.key({ modkey, "Shift"   }, "Tab",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "]",  awful.tag.viewnext,
+    awful.key({ modkey,           }, "Tab",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "Tab", awful.tag.history.restore,
+    awful.key({ modkey, "Shift"   }, "'", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
-    awful.key({ modkey,           }, "j",
+    awful.key({ "Mod1",           }, "Tab",
         function ()
             awful.client.focus.byidx( 1)
         end,
         {description = "focus next by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "k",
+    awful.key({ "Mod1", "Shift"   }, "Tab",
         function ()
             awful.client.focus.byidx(-1)
         end,
