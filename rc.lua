@@ -1,5 +1,5 @@
 local helpers = require("helpers")
-local rofi = require("awesome-rofi")
+local rofi = require("rofi")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
