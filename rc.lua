@@ -96,17 +96,28 @@ local function provision_screen(screen)
     end
 end
 
-function create_tag_prompt(move_focused_client)
-    rofi.ask_for_tag_name("new tag", function(new_name)
-        new_tag = awful.tag.add(new_name, {
+local function switch_tag_prompt(on_switch)
+    local function create_tag(name)
+        new_tag = awful.tag.add(name, {
             screen = awful.screen.focused(),
-            index  = sorted_tag_index(awful.screen.focused(), new_name),
+            index  = sorted_tag_index(awful.screen.focused(), name),
             layout = awful.layout.layouts[1]
         })
-        if move_focused_client and client.focus then
-            client.focus:tags({new_tag})
-        end
+        if on_switch then on_switch(new_tag) end
         new_tag:view_only()
+    end
+    local function switch_tag(tag)
+        if on_switch then on_switch(tag) end
+        tag:view_only()
+    end
+    rofi.select_tag_prompt(switch_tag, create_tag)
+end
+
+local function switch_tag_moving_client_prompt()
+    switch_tag_prompt(function(tag)
+        if client.focus then
+            client.focus:tags({tag})
+        end
     end)
 end
 
@@ -367,14 +378,10 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "p", rofi.find_client_prompt,
               {description = "find already running app", group = "launcher"}),
 
-    awful.key({ modkey,           }, "a", function() create_tag_prompt(false) end,
-              {description = "add new tag", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "a", function() create_tag_prompt(true) end,
-              {description = "add new tag and move focused client there", group = "tag"}),
-    awful.key({ modkey,           }, "s", rename_tag_prompt,
-              {description = "substitute current tag name", group = "tag"}),
-    awful.key({ modkey },            "w", rofi.goto_tag_prompt,
-              {description = "go to tag", group = "tag"}),
+    awful.key({ modkey,           }, "s", switch_tag_prompt,
+              {description = "switch tag", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "s", switch_tag_moving_client_prompt,
+              {description = "switch tag, moving focused window to it", group = "tag"}),
     awful.key({ modkey },            "Escape", function() awful.spawn("light-locker-command -l") end,
               {description = "lock screen", group = "launcher"})
 )
