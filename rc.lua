@@ -75,12 +75,6 @@ awful.layout.layouts = {
 -- }}}
 
 -- {{{ Helper functions
-local function provision_screen(screen)
-    if #screen.tags == 0 then
-        awful.tag({ "*scratch*" }, screen, awful.layout.layouts[1])
-    end
-end
-
 local function sorted_tag_index(screen, name)
     local i = 1
     while screen.tags[i] do
@@ -88,6 +82,21 @@ local function sorted_tag_index(screen, name)
         i = i + 1
     end
     return i
+end
+
+local function provision_screen(screen)
+    local scratch_tag_name = "*scratch*"
+    for _, t in pairs(screen.tags) do
+        if t.name == scratch_tag_name then return end
+    end
+    new_tag = awful.tag.add(scratch_tag_name, {
+        screen = screen,
+        index = sorted_tag_index(screen, scratch_tag_name),
+        layout = awful.layout.layouts[1]
+    })
+    if #screen.selected_tags == 0 then
+        new_tag.selected = true
+    end
 end
 
 function create_tag_prompt(move_focused_client)
@@ -105,10 +114,12 @@ function create_tag_prompt(move_focused_client)
 end
 
 function rename_tag_prompt()
-    local selected_tag = awful.screen.focused().selected_tag
+    s = awful.screen.focused()
+    local selected_tag = s.selected_tag
     rofi.ask_for_tag_name("rename tag", function(new_name)
         selected_tag.name = new_name
-        selected_tag.index = sorted_tag_index(awful.screen.focused(), new_name)
+        selected_tag.index = sorted_tag_index(s, new_name)
+        provision_screen(s)
     end)
 end
 
