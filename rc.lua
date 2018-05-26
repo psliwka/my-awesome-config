@@ -75,19 +75,6 @@ awful.layout.layouts = {
 -- }}}
 
 -- {{{ Helper functions
-local function client_menu_toggle_fn()
-    local instance = nil
-
-    return function ()
-        if instance and instance.wibox.visible then
-            instance:hide()
-            instance = nil
-        else
-            instance = awful.menu.clients({ theme = { width = 250 } })
-        end
-    end
-end
-
 local function provision_screen(screen)
     if #screen.tags == 0 then
         awful.tag({ "*scratch*" }, screen, awful.layout.layouts[1])
@@ -211,7 +198,7 @@ local tasklist_buttons = gears.table.join(
                                                   c:raise()
                                               end
                                           end),
-                     awful.button({ }, 3, client_menu_toggle_fn()),
+                     awful.button({ }, 3, function(c) c.minimized = not c.minimized end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                           end),
