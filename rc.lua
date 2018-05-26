@@ -122,13 +122,6 @@ function rename_tag_prompt()
         provision_screen(s)
     end)
 end
-
-function close_selected_tags()
-    for _, tag in pairs(awful.screen.focused().selected_tags) do
-        tag:delete()
-    end
-    provision_screen(awful.screen.focused())
-end
 -- }}}
 
 -- {{{ Menu
@@ -382,8 +375,6 @@ globalkeys = gears.table.join(
               {description = "add new tag", group = "tag"}),
     awful.key({ modkey, "Shift"   }, "a", function() create_tag_prompt(true) end,
               {description = "add new tag and move focused client there", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "d", close_selected_tags,
-              {description = "delete current tag", group = "tag"}),
     awful.key({ modkey,           }, "s", rename_tag_prompt,
               {description = "substitute current tag name", group = "tag"}),
     awful.key({ modkey },            "w", rofi.goto_tag_prompt,
