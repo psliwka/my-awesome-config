@@ -4,7 +4,7 @@
 -- rc.lua, and thus simplify merging changes from the latter to the former.
 
 local awful = require("awful")
-local battery = require("awesome-upower-battery")
+local battery = require("upower-battery")
 
 local helpers = {}
 
