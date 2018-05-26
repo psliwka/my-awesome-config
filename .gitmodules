@@ -1,3 +1,6 @@
 [submodule "awesome-upower-battery"]
 	path = awesome-upower-battery
 	url = https://github.com/berlam/awesome-upower-battery
+[submodule "remember-geometry"]
+	path = remember-geometry
+	url = https://github.com/berlam/awesome-remember-geometry

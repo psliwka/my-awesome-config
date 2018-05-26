@@ -1,5 +1,6 @@
 local helpers = require("helpers")
 local rofi = require("rofi")
+require("remember-geometry")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
