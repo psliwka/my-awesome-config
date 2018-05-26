@@ -87,6 +87,50 @@ local function client_menu_toggle_fn()
         end
     end
 end
+
+local function provision_screen(screen)
+    if #screen.tags == 0 then
+        awful.tag({ "*scratch*" }, screen, awful.layout.layouts[1])
+    end
+end
+
+local function sorted_tag_index(screen, name)
+    local i = 1
+    while screen.tags[i] do
+        if name < screen.tags[i].name then break end
+        i = i + 1
+    end
+    return i
+end
+
+function create_tag_prompt(move_focused_client)
+    rofi.ask_for_tag_name("new tag", function(new_name)
+        new_tag = awful.tag.add(new_name, {
+            screen = awful.screen.focused(),
+            index  = sorted_tag_index(awful.screen.focused(), new_name),
+            layout = awful.layout.layouts[1]
+        })
+        if move_focused_client and client.focus then
+            client.focus:tags({new_tag})
+        end
+        new_tag:view_only()
+    end)
+end
+
+function rename_tag_prompt()
+    local selected_tag = awful.screen.focused().selected_tag
+    rofi.ask_for_tag_name("rename tag", function(new_name)
+        selected_tag.name = new_name
+        selected_tag.index = sorted_tag_index(awful.screen.focused(), new_name)
+    end)
+end
+
+function close_selected_tags()
+    for _, tag in pairs(awful.screen.focused().selected_tags) do
+        tag:delete()
+    end
+    provision_screen(awful.screen.focused())
+end
 -- }}}
 
 -- {{{ Menu
@@ -195,7 +239,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    helpers.provision_screen(s)
+    provision_screen(s)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -336,18 +380,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "p", rofi.find_client_prompt,
               {description = "find already running app", group = "launcher"}),
 
-    awful.key({ modkey,           }, "i", helpers.insert_tag,
-              {description = "insert new tag", group = "tag"}),
-    awful.key({ modkey,           }, "a", helpers.append_tag,
-              {description = "append new tag", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "i", helpers.insert_tag_with_client,
-              {description = "insert new tag with focused client", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "a", helpers.append_tag_with_client,
-              {description = "append new tag with focused client", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "d", helpers.close_selected_tags,
+    awful.key({ modkey,           }, "a", function() create_tag_prompt(false) end,
+              {description = "add new tag", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "a", function() create_tag_prompt(true) end,
+              {description = "add new tag and move focused client there", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "d", close_selected_tags,
               {description = "delete current tag", group = "tag"}),
-    awful.key({ modkey,           }, "s", helpers.rename_tag,
-              {description = "rename current tag", group = "tag"}),
+    awful.key({ modkey,           }, "s", rename_tag_prompt,
+              {description = "substitute current tag name", group = "tag"}),
     awful.key({ modkey },            "w", rofi.goto_tag_prompt,
               {description = "go to tag", group = "tag"}),
     awful.key({ modkey },            "Escape", function() awful.spawn("light-locker-command -l") end,
@@ -566,6 +606,6 @@ screen.connect_signal("tag::history::update", function(s)
     for _, t in pairs(s.tags) do
         if not t.selected and #t:clients() == 0 then t:delete() end
     end
-    helpers.provision_screen(s)
+    provision_screen(s)
 end)
 -- }}}

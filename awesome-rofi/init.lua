@@ -27,4 +27,15 @@ function rofi.goto_tag_prompt()
     end)
 end
 
+function rofi.ask_for_tag_name(prompt, callback)
+    local function rofi_finished(stdout, stderr, reason, exit_code)
+        if exit_code ~= 0 then return end
+        entered_name = stdout:gsub("\n", "")
+        if #entered_name ~= 0 then
+            callback(entered_name)
+        end
+    end
+    awful.spawn.easy_async("rofi -dmenu -p '" .. prompt .. "'", rofi_finished)
+end
+
 return rofi
