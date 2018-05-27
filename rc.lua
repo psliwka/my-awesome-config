@@ -1,5 +1,6 @@
 local helpers = require("helpers")
 local rofi = require("rofi")
+local xresources = require("beautiful.xresources")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -589,5 +590,12 @@ screen.connect_signal("tag::history::update", function(s)
         if not t.selected and #t:clients() == 0 then t:delete() end
     end
     provision_screen(s)
+end)
+
+-- Round window corners
+client.connect_signal("manage", function (c)
+    c.shape = function(cr,w,h)
+        gears.shape.rounded_rect(cr,w,h,xresources.apply_dpi(6))
+    end
 end)
 -- }}}
