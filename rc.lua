@@ -45,6 +45,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.snap_bg = beautiful.border_focus
+beautiful.snap_shape = gears.shape.rectangle
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
