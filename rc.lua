@@ -1,4 +1,3 @@
-local helpers = require("helpers")
 local rofi = require("rofi")
 local xresources = require("beautiful.xresources")
 -- Standard awesome library
@@ -272,7 +271,6 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            helpers.mybattery(),
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
