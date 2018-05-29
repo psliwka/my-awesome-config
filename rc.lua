@@ -1,5 +1,6 @@
 local rofi = require("rofi")
 local xresources = require("beautiful.xresources")
+local switcher = require("switcher")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -302,15 +303,15 @@ globalkeys = gears.table.join(
 
     awful.key({ "Mod1",           }, "Tab",
         function ()
-            awful.client.focus.byidx( 1)
+            switcher.switch( 1, "Mod1", "Alt_L", "Shift", "Tab")
         end,
-        {description = "focus next by index", group = "client"}
+        {description = "focus next by history", group = "client"}
     ),
     awful.key({ "Mod1", "Shift"   }, "Tab",
         function ()
-            awful.client.focus.byidx(-1)
+            switcher.switch( -1, "Mod1", "Alt_L", "Shift", "Tab")
         end,
-        {description = "focus previous by index", group = "client"}
+        {description = "focus previous by history", group = "client"}
     ),
     awful.key({ modkey,           }, "Menu", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
