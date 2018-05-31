@@ -212,6 +212,7 @@ local tasklist_buttons = gears.table.join(
                                                   c:raise()
                                               end
                                           end),
+                     awful.button({ }, 2, function (c) c:kill() end),
                      awful.button({ }, 3, function(c) c.minimized = not c.minimized end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
@@ -463,6 +464,7 @@ end
 clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
+    awful.button({ modkey }, 2, function (c) c:kill() end),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
