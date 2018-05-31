@@ -456,7 +456,7 @@ clientbuttons = gears.table.join(
         c:raise()
         awful.mouse.client.resize(c)
     end)
- )
+)
 
 -- Set keys
 root.keys(globalkeys)
