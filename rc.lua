@@ -45,6 +45,9 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 beautiful.snap_bg = beautiful.border_focus
 beautiful.snap_shape = gears.shape.rectangle
 
+-- Quickfix until https://github.com/awesomeWM/awesome/issues/2143 is done
+awesome.set_preferred_icon_size(22)
+
 -- This is used later as the default terminal and editor to run.
 terminal = os.getenv("TERMINAL") or "xterm"
 editor = os.getenv("EDITOR") or "nano"
