@@ -7,6 +7,7 @@ Requirements
 ------------
 
 - [awesome](https://github.com/awesomeWM/awesome) 4.2+
+- [awesome-arc-theme](https://github.com/psliwka/awesome-arc-theme)
 - [light-locker](https://github.com/the-cavalry/light-locker)
 - [rofi](https://github.com/DaveDavenport/rofi)
 

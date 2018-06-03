@@ -41,9 +41,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.snap_bg = beautiful.border_focus
-beautiful.snap_shape = gears.shape.rectangle
+beautiful.init(gears.filesystem.get_themes_dir() .. "arc-dark/theme.lua")
 
 -- Quickfix until https://github.com/awesomeWM/awesome/issues/2143 is done
 awesome.set_preferred_icon_size(22)
