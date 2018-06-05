@@ -589,7 +589,7 @@ end)
 -- Round window corners
 client.connect_signal("manage", function (c)
     c.shape = function(cr,w,h)
-        gears.shape.rounded_rect(cr,w,h,xresources.apply_dpi(6))
+        gears.shape.rounded_rect(cr,w,h,xresources.apply_dpi(3))
     end
 end)
 -- }}}
