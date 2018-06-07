@@ -358,11 +358,11 @@ globalkeys = gears.table.join(
 
     -- Prompt
     awful.key({ modkey },            "r", rofi.run_prompt,
-              {description = "run", group = "launcher"}),
-    awful.key({ modkey },            "o", rofi.desktop_run_prompt,
-              {description = "run desktop app", group = "launcher"}),
-    awful.key({ modkey },            "p", rofi.find_client_prompt,
-              {description = "find already running app", group = "launcher"}),
+              {description = "run arbitrary command", group = "launcher"}),
+    awful.key({ "Mod1" },            "space", rofi.combi_prompt,
+              {description = "show launcher", group = "launcher"}),
+    awful.key({ modkey },            "/", rofi.find_client_prompt,
+              {description = "find window", group = "launcher"}),
 
     awful.key({ modkey,           }, "s", switch_tag_prompt,
               {description = "switch tag", group = "tag"}),

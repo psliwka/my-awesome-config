@@ -14,6 +14,10 @@ function rofi.find_client_prompt()
     awful.spawn("rofi -show window")
 end
 
+function rofi.combi_prompt()
+    awful.spawn("rofi -show combi")
+end
+
 local function strip_newline(value)
     return value:gsub("\n", "")
 end
