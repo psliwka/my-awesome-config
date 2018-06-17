@@ -2,20 +2,46 @@ local awful = require("awful")
 
 local rofi = {}
 
+function rofi.stringified_parameter(key, value)
+    if value == true then
+        return "-" .. key
+    elseif value == false then
+        return "-no-" .. key
+    else
+        return "-" .. key .. " '" .. value .. "'"
+    end
+end
+
+function rofi.stringified_parameters(parameters)
+    local tmp = ""
+    for key, value in pairs(parameters) do
+        tmp = tmp .. " " .. rofi.stringified_parameter(key, value)
+    end
+    return tmp
+end
+
+function rofi.invocation(parameters)
+    return "rofi" .. rofi.stringified_parameters(parameters)
+end
+
+function rofi.spawn(parameters)
+    awful.spawn(rofi.invocation(parameters))
+end
+
 function rofi.run_prompt()
-    awful.spawn("rofi -show run")
+    rofi.spawn{show="run"}
 end
 
 function rofi.desktop_run_prompt()
-    awful.spawn("rofi -show drun")
+    rofi.spawn{show="drun"}
 end
 
 function rofi.find_client_prompt()
-    awful.spawn("rofi -show window")
+    rofi.spawn{show="window"}
 end
 
 function rofi.combi_prompt()
-    awful.spawn("rofi -show combi")
+    rofi.spawn{show="combi"}
 end
 
 local function strip_newline(value)
@@ -24,7 +50,7 @@ end
 
 function rofi.select_from_table_prompt(items, prompt, callback)
     local items_str = table.concat(items, "\n")
-    local rofi_cmd = "rofi -dmenu -format 'd s' -p '" .. prompt .. "'"
+    local rofi_cmd = rofi.invocation{dmenu=true, format="d s", p=prompt}
     local cmd = "echo '" .. items_str .. "' | " .. rofi_cmd  -- TODO: escape quotes
     local function rofi_finished(stdout, stderr, reason, exit_code)
         if exit_code ~= 0 then return end
