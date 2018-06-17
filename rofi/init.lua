@@ -22,9 +22,9 @@ local function strip_newline(value)
     return value:gsub("\n", "")
 end
 
-function rofi.select_from_table_prompt(items, callback)
+function rofi.select_from_table_prompt(items, prompt, callback)
     local items_str = table.concat(items, "\n")
-    local rofi_cmd = "rofi -dmenu -format 'd s'"
+    local rofi_cmd = "rofi -dmenu -format 'd s' -p '" .. prompt .. "'"
     local cmd = "echo '" .. items_str .. "' | " .. rofi_cmd  -- TODO: escape quotes
     local function rofi_finished(stdout, stderr, reason, exit_code)
         if exit_code ~= 0 then return end
@@ -48,7 +48,7 @@ function rofi.select_tag_prompt(callback, callback_if_new)
             callback(s.tags[index])
         end
     end
-    rofi.select_from_table_prompt(tag_names, tag_selected)
+    rofi.select_from_table_prompt(tag_names, "tag name", tag_selected)
 end
 
 function rofi.ask_for_tag_name(prompt, callback)
