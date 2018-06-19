@@ -52,7 +52,7 @@ function rofi.select_from_table_prompt(items, prompt, callback)
     local items_str = table.concat(items, "\n")
     local rofi_cmd = rofi.invocation{
         dmenu=true, format="d s", p=prompt,
-        mesg="hint: press Ctrl+Enter to force creating new " .. prompt}
+        mesg="hint: press <b>Ctrl+Enter</b> to force creating new " .. prompt}
     local cmd = "echo '" .. items_str .. "' | " .. rofi_cmd  -- TODO: escape quotes
     local function rofi_finished(stdout, stderr, reason, exit_code)
         if exit_code ~= 0 then return end
