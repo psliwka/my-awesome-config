@@ -364,6 +364,14 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
+    awful.key({ modkey,           }, "q",
+              function ()
+                  for _, c in pairs(awful.screen.focused().selected_tag:clients()) do
+                      c:kill()
+                  end
+              end,
+              {description = "close all windows on active tag", group = "client"}),
+
     -- Prompt
     awful.key({ modkey },            "r", rofi.run_prompt,
               {description = "run arbitrary command", group = "launcher"}),
