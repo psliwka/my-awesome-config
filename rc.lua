@@ -278,10 +278,6 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "/",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey, "Shift"   }, "Tab",   awful.tag.viewprev,
-              {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Tab",  awful.tag.viewnext,
-              {description = "view next", group = "tag"}),
     awful.key({ modkey, "Shift"   }, "'", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
@@ -376,9 +372,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "/", rofi.find_client_prompt,
               {description = "find window", group = "launcher"}),
 
-    awful.key({ modkey,           }, "s", switch_tag_prompt,
+    awful.key({ modkey,           }, "Tab", switch_tag_prompt,
               {description = "switch tag", group = "tag"}),
-    awful.key({ modkey, "Shift"   }, "s", switch_tag_moving_client_prompt,
+    awful.key({ modkey, "Shift"   }, "Tab", switch_tag_moving_client_prompt,
               {description = "switch tag, moving focused window to it", group = "tag"}),
     awful.key({ modkey },            "Escape", function() awful.spawn("light-locker-command -l") end,
               {description = "lock screen", group = "launcher"})
